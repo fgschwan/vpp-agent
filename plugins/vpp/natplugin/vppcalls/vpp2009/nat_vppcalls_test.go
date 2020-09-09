@@ -63,7 +63,7 @@ func TestSetNat44ForwardingError(t *testing.T) {
 	defer ctx.TeardownTestCtx()
 
 	// Incorrect reply object
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.SetNat44Forwarding(true)
 
 	Expect(err).Should(HaveOccurred())
@@ -229,7 +229,7 @@ func TestEnableNat44InterfaceOutputError(t *testing.T) {
 	swIfIndexes.Put("if1", &ifaceidx.IfaceMetadata{SwIfIndex: 2})
 
 	// Incorrect reply object
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.EnableNat44Interface("if1", false, true)
 
 	Expect(err).Should(HaveOccurred())
@@ -439,12 +439,12 @@ func TestAddNat44StaticMapping(t *testing.T) {
 		},
 	}
 
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.AddNat44StaticMapping(mapping, "DNAT 1")
 
 	Expect(err).ShouldNot(HaveOccurred())
 
-	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMapping)
+	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMappingV2)
 	Expect(ok).To(BeTrue())
 	Expect(msg.Tag).To(BeEquivalentTo("DNAT 1"))
 	Expect(msg.VrfID).To(BeEquivalentTo(1))
@@ -476,12 +476,12 @@ func TestAddNat44IdentityMappingWithInterface(t *testing.T) {
 		},
 	}
 
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.AddNat44StaticMapping(mapping, "DNAT 1")
 
 	Expect(err).ShouldNot(HaveOccurred())
 
-	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMapping)
+	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMappingV2)
 	Expect(ok).To(BeTrue())
 	Expect(msg.Tag).To(BeEquivalentTo("DNAT 1"))
 	Expect(msg.IsAdd).To(BeTrue())
@@ -505,7 +505,7 @@ func TestAddNat44StaticMappingRetval(t *testing.T) {
 	ctx, natHandler, _, _ := natTestSetup(t)
 	defer ctx.TeardownTestCtx()
 
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{
 		Retval: 1,
 	})
 	err := natHandler.AddNat44StaticMapping(&nat.DNat44_StaticMapping{}, "")
@@ -537,12 +537,12 @@ func TestDelNat44StaticMapping(t *testing.T) {
 		},
 	}
 
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.DelNat44StaticMapping(mapping, "DNAT 1")
 
 	Expect(err).ShouldNot(HaveOccurred())
 
-	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMapping)
+	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMappingV2)
 	Expect(ok).To(BeTrue())
 	Expect(msg.Tag).To(BeEquivalentTo("DNAT 1"))
 	Expect(msg.VrfID).To(BeEquivalentTo(1))
@@ -573,12 +573,12 @@ func TestDelNat44StaticMappingAddrOnly(t *testing.T) {
 		},
 	}
 
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.DelNat44StaticMapping(mapping, "DNAT 1")
 
 	Expect(err).ShouldNot(HaveOccurred())
 
-	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMapping)
+	msg, ok := ctx.MockChannel.Msg.(*vpp_nat.Nat44AddDelStaticMappingV2)
 	Expect(ok).To(BeTrue())
 	Expect(msg.Tag).To(BeEquivalentTo("DNAT 1"))
 	Expect(msg.IsAdd).To(BeFalse())
@@ -775,7 +775,7 @@ func TestAddNat44IdentityMappingError(t *testing.T) {
 	defer ctx.TeardownTestCtx()
 
 	// Incorrect reply object
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	err := natHandler.AddNat44IdentityMapping(&nat.DNat44_IdentityMapping{}, "")
 
 	Expect(err).Should(HaveOccurred())
@@ -860,11 +860,11 @@ func TestNat44MappingLongTag(t *testing.T) {
 	}
 
 	// 1. test
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelLbStaticMappingReply{})
 	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelIdentityMappingReply{})
 	// 2. test
-	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingReply{})
+	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelStaticMappingV2Reply{})
 	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelLbStaticMappingReply{})
 	ctx.MockVpp.MockReply(&vpp_nat.Nat44AddDelIdentityMappingReply{})
 
