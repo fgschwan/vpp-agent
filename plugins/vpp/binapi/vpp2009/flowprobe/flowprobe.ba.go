@@ -30,7 +30,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "1.0.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xe904179b
+	VersionCrc = 0x93135db1
 )
 
 // FlowprobeRecordFlags represents VPP binary API enum 'flowprobe_record_flags'.

@@ -34,7 +34,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "4.0.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xf1b898ce
+	VersionCrc = 0xfdb2c8aa
 )
 
 type AddressFamily = ip_types.AddressFamily
@@ -67,15 +67,19 @@ const (
 	TAP_API_FLAG_ATTACH       TapFlags = 8
 	TAP_API_FLAG_TUN          TapFlags = 16
 	TAP_API_FLAG_GRO_COALESCE TapFlags = 32
+	TAP_API_FLAG_PACKED       TapFlags = 64
+	TAP_API_FLAG_IN_ORDER     TapFlags = 128
 )
 
 var TapFlags_name = map[uint32]string{
-	1:  "TAP_API_FLAG_GSO",
-	2:  "TAP_API_FLAG_CSUM_OFFLOAD",
-	4:  "TAP_API_FLAG_PERSIST",
-	8:  "TAP_API_FLAG_ATTACH",
-	16: "TAP_API_FLAG_TUN",
-	32: "TAP_API_FLAG_GRO_COALESCE",
+	1:   "TAP_API_FLAG_GSO",
+	2:   "TAP_API_FLAG_CSUM_OFFLOAD",
+	4:   "TAP_API_FLAG_PERSIST",
+	8:   "TAP_API_FLAG_ATTACH",
+	16:  "TAP_API_FLAG_TUN",
+	32:  "TAP_API_FLAG_GRO_COALESCE",
+	64:  "TAP_API_FLAG_PACKED",
+	128: "TAP_API_FLAG_IN_ORDER",
 }
 
 var TapFlags_value = map[string]uint32{
@@ -85,6 +89,8 @@ var TapFlags_value = map[string]uint32{
 	"TAP_API_FLAG_ATTACH":       8,
 	"TAP_API_FLAG_TUN":          16,
 	"TAP_API_FLAG_GRO_COALESCE": 32,
+	"TAP_API_FLAG_PACKED":       64,
+	"TAP_API_FLAG_IN_ORDER":     128,
 }
 
 func (x TapFlags) String() string {

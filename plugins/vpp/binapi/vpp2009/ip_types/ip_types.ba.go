@@ -28,7 +28,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "3.0.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xa5710689
+	VersionCrc = 0x42039157
 )
 
 // AddressFamily represents VPP binary API enum 'address_family'.

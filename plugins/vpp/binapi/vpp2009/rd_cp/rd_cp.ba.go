@@ -30,7 +30,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "1.0.1"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0x2caa616
+	VersionCrc = 0xb3358997
 )
 
 type IfStatusFlags = interface_types.IfStatusFlags

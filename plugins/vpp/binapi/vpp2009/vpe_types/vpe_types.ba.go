@@ -25,7 +25,7 @@ const (
 	// ModuleName is the name of this module.
 	ModuleName = "vpe_types"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0x3369988d
+	VersionCrc = 0x7e8cfd4b
 )
 
 // LogLevel represents VPP binary API enum 'log_level'.

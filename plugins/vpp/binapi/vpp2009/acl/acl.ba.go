@@ -34,7 +34,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "2.0.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xf770e782
+	VersionCrc = 0xf784d872
 )
 
 // ACLAction represents VPP binary API enum 'acl_action'.

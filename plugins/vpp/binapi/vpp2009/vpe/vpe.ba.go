@@ -31,7 +31,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "1.6.1"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xbd2c94f4
+	VersionCrc = 0x40364e00
 )
 
 type LogLevel = vpe_types.LogLevel

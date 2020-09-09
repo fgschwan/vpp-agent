@@ -32,7 +32,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "2.0.1"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0x7bd82926
+	VersionCrc = 0xa3d6706f
 )
 
 type AddressFamily = ip_types.AddressFamily

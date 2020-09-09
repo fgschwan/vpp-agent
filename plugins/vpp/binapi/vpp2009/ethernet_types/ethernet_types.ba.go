@@ -23,7 +23,7 @@ const (
 	// ModuleName is the name of this module.
 	ModuleName = "ethernet_types"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xd4ff2808
+	VersionCrc = 0xd4cbb29
 )
 
 // MacAddress represents VPP binary API alias 'mac_address'.

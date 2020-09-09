@@ -7,8 +7,8 @@ Package bond is a generated VPP binary API for 'bond' module.
 It consists of:
 	  8 enums
 	  2 aliases
-	 22 messages
-	 11 services
+	 24 messages
+	 12 services
 */
 package bond
 
@@ -31,7 +31,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "2.1.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xca88e78
+	VersionCrc = 0x2b0675da
 )
 
 // BondLbAlgo represents VPP binary API enum 'bond_lb_algo'.
@@ -160,6 +160,33 @@ func (m *BondCreate) Reset()                        { *m = BondCreate{} }
 func (*BondCreate) GetMessageName() string          { return "bond_create" }
 func (*BondCreate) GetCrcString() string            { return "48883c7e" }
 func (*BondCreate) GetMessageType() api.MessageType { return api.RequestMessage }
+
+// BondCreate2 represents VPP binary API message 'bond_create2'.
+type BondCreate2 struct {
+	Mode         BondMode
+	Lb           BondLbAlgo
+	NumaOnly     bool
+	EnableGso    bool
+	UseCustomMac bool
+	MacAddress   MacAddress
+	ID           uint32
+}
+
+func (m *BondCreate2) Reset()                        { *m = BondCreate2{} }
+func (*BondCreate2) GetMessageName() string          { return "bond_create2" }
+func (*BondCreate2) GetCrcString() string            { return "912fda76" }
+func (*BondCreate2) GetMessageType() api.MessageType { return api.RequestMessage }
+
+// BondCreate2Reply represents VPP binary API message 'bond_create2_reply'.
+type BondCreate2Reply struct {
+	Retval    int32
+	SwIfIndex InterfaceIndex
+}
+
+func (m *BondCreate2Reply) Reset()                        { *m = BondCreate2Reply{} }
+func (*BondCreate2Reply) GetMessageName() string          { return "bond_create2_reply" }
+func (*BondCreate2Reply) GetCrcString() string            { return "5383d31f" }
+func (*BondCreate2Reply) GetMessageType() api.MessageType { return api.ReplyMessage }
 
 // BondCreateReply represents VPP binary API message 'bond_create_reply'.
 type BondCreateReply struct {
@@ -384,6 +411,8 @@ func init() {
 	api.RegisterMessage((*BondAddMember)(nil), "bond.BondAddMember")
 	api.RegisterMessage((*BondAddMemberReply)(nil), "bond.BondAddMemberReply")
 	api.RegisterMessage((*BondCreate)(nil), "bond.BondCreate")
+	api.RegisterMessage((*BondCreate2)(nil), "bond.BondCreate2")
+	api.RegisterMessage((*BondCreate2Reply)(nil), "bond.BondCreate2Reply")
 	api.RegisterMessage((*BondCreateReply)(nil), "bond.BondCreateReply")
 	api.RegisterMessage((*BondDelete)(nil), "bond.BondDelete")
 	api.RegisterMessage((*BondDeleteReply)(nil), "bond.BondDeleteReply")
@@ -411,6 +440,8 @@ func AllMessages() []api.Message {
 		(*BondAddMember)(nil),
 		(*BondAddMemberReply)(nil),
 		(*BondCreate)(nil),
+		(*BondCreate2)(nil),
+		(*BondCreate2Reply)(nil),
 		(*BondCreateReply)(nil),
 		(*BondDelete)(nil),
 		(*BondDeleteReply)(nil),
@@ -441,6 +472,7 @@ type RPCService interface {
 	DumpSwMemberInterface(ctx context.Context, in *SwMemberInterfaceDump) (RPCService_DumpSwMemberInterfaceClient, error)
 	BondAddMember(ctx context.Context, in *BondAddMember) (*BondAddMemberReply, error)
 	BondCreate(ctx context.Context, in *BondCreate) (*BondCreateReply, error)
+	BondCreate2(ctx context.Context, in *BondCreate2) (*BondCreate2Reply, error)
 	BondDelete(ctx context.Context, in *BondDelete) (*BondDeleteReply, error)
 	BondDetachMember(ctx context.Context, in *BondDetachMember) (*BondDetachMemberReply, error)
 	BondDetachSlave(ctx context.Context, in *BondDetachSlave) (*BondDetachSlaveReply, error)
@@ -571,6 +603,15 @@ func (c *serviceClient) BondAddMember(ctx context.Context, in *BondAddMember) (*
 
 func (c *serviceClient) BondCreate(ctx context.Context, in *BondCreate) (*BondCreateReply, error) {
 	out := new(BondCreateReply)
+	err := c.ch.SendRequest(in).ReceiveReply(out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *serviceClient) BondCreate2(ctx context.Context, in *BondCreate2) (*BondCreate2Reply, error) {
+	out := new(BondCreate2Reply)
 	err := c.ch.SendRequest(in).ReceiveReply(out)
 	if err != nil {
 		return nil, err

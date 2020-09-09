@@ -9,8 +9,8 @@ It consists of:
 	  6 aliases
 	  9 types
 	  1 union
-	103 messages
-	 51 services
+	107 messages
+	 53 services
 */
 package nat
 
@@ -33,7 +33,7 @@ const (
 	// APIVersion is the API version of this module.
 	APIVersion = "5.2.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0xb533d5b0
+	VersionCrc = 0x10202b10
 )
 
 type AddressFamily = ip_types.AddressFamily
@@ -320,6 +320,39 @@ func (*Nat44AddDelStaticMappingReply) GetMessageName() string {
 }
 func (*Nat44AddDelStaticMappingReply) GetCrcString() string            { return "e8d4e804" }
 func (*Nat44AddDelStaticMappingReply) GetMessageType() api.MessageType { return api.ReplyMessage }
+
+// Nat44AddDelStaticMappingV2 represents VPP binary API message 'nat44_add_del_static_mapping_v2'.
+type Nat44AddDelStaticMappingV2 struct {
+	IsAdd             bool
+	MatchPool         bool
+	Flags             NatConfigFlags
+	PoolIPAddress     IP4Address
+	LocalIPAddress    IP4Address
+	ExternalIPAddress IP4Address
+	Protocol          uint8
+	LocalPort         uint16
+	ExternalPort      uint16
+	ExternalSwIfIndex InterfaceIndex
+	VrfID             uint32
+	Tag               string `struc:"[64]byte"`
+}
+
+func (m *Nat44AddDelStaticMappingV2) Reset()                        { *m = Nat44AddDelStaticMappingV2{} }
+func (*Nat44AddDelStaticMappingV2) GetMessageName() string          { return "nat44_add_del_static_mapping_v2" }
+func (*Nat44AddDelStaticMappingV2) GetCrcString() string            { return "5e205f1a" }
+func (*Nat44AddDelStaticMappingV2) GetMessageType() api.MessageType { return api.RequestMessage }
+
+// Nat44AddDelStaticMappingV2Reply represents VPP binary API message 'nat44_add_del_static_mapping_v2_reply'.
+type Nat44AddDelStaticMappingV2Reply struct {
+	Retval int32
+}
+
+func (m *Nat44AddDelStaticMappingV2Reply) Reset() { *m = Nat44AddDelStaticMappingV2Reply{} }
+func (*Nat44AddDelStaticMappingV2Reply) GetMessageName() string {
+	return "nat44_add_del_static_mapping_v2_reply"
+}
+func (*Nat44AddDelStaticMappingV2Reply) GetCrcString() string            { return "e8d4e804" }
+func (*Nat44AddDelStaticMappingV2Reply) GetMessageType() api.MessageType { return api.ReplyMessage }
 
 // Nat44AddressDetails represents VPP binary API message 'nat44_address_details'.
 type Nat44AddressDetails struct {
@@ -1340,6 +1373,43 @@ func (*NatShowConfig) GetMessageName() string          { return "nat_show_config
 func (*NatShowConfig) GetCrcString() string            { return "51077d14" }
 func (*NatShowConfig) GetMessageType() api.MessageType { return api.RequestMessage }
 
+// NatShowConfig2 represents VPP binary API message 'nat_show_config_2'.
+type NatShowConfig2 struct{}
+
+func (m *NatShowConfig2) Reset()                        { *m = NatShowConfig2{} }
+func (*NatShowConfig2) GetMessageName() string          { return "nat_show_config_2" }
+func (*NatShowConfig2) GetCrcString() string            { return "51077d14" }
+func (*NatShowConfig2) GetMessageType() api.MessageType { return api.RequestMessage }
+
+// NatShowConfig2Reply represents VPP binary API message 'nat_show_config_2_reply'.
+type NatShowConfig2Reply struct {
+	Retval                          int32
+	StaticMappingOnly               bool
+	StaticMappingConnectionTracking bool
+	Deterministic                   bool
+	EndpointDependent               bool
+	Out2inDpo                       bool
+	DsliteCe                        bool
+	TranslationBuckets              uint32
+	TranslationMemorySize           uint64
+	UserBuckets                     uint32
+	UserMemorySize                  uint64
+	MaxTranslationsPerUser          uint32
+	OutsideVrfID                    uint32
+	InsideVrfID                     uint32
+	Nat64BibBuckets                 uint32
+	Nat64BibMemorySize              uint64
+	Nat64StBuckets                  uint32
+	Nat64StMemorySize               uint64
+	MaxTranslationsPerThread        uint32
+	MaxUsersPerThread               uint32
+}
+
+func (m *NatShowConfig2Reply) Reset()                        { *m = NatShowConfig2Reply{} }
+func (*NatShowConfig2Reply) GetMessageName() string          { return "nat_show_config_2_reply" }
+func (*NatShowConfig2Reply) GetCrcString() string            { return "0404a5b4" }
+func (*NatShowConfig2Reply) GetMessageType() api.MessageType { return api.ReplyMessage }
+
 // NatShowConfigReply represents VPP binary API message 'nat_show_config_reply'.
 type NatShowConfigReply struct {
 	Retval                          int32
@@ -1398,6 +1468,8 @@ func init() {
 	api.RegisterMessage((*Nat44AddDelLbStaticMappingReply)(nil), "nat.Nat44AddDelLbStaticMappingReply")
 	api.RegisterMessage((*Nat44AddDelStaticMapping)(nil), "nat.Nat44AddDelStaticMapping")
 	api.RegisterMessage((*Nat44AddDelStaticMappingReply)(nil), "nat.Nat44AddDelStaticMappingReply")
+	api.RegisterMessage((*Nat44AddDelStaticMappingV2)(nil), "nat.Nat44AddDelStaticMappingV2")
+	api.RegisterMessage((*Nat44AddDelStaticMappingV2Reply)(nil), "nat.Nat44AddDelStaticMappingV2Reply")
 	api.RegisterMessage((*Nat44AddressDetails)(nil), "nat.Nat44AddressDetails")
 	api.RegisterMessage((*Nat44AddressDump)(nil), "nat.Nat44AddressDump")
 	api.RegisterMessage((*Nat44DelSession)(nil), "nat.Nat44DelSession")
@@ -1488,6 +1560,8 @@ func init() {
 	api.RegisterMessage((*NatSetWorkers)(nil), "nat.NatSetWorkers")
 	api.RegisterMessage((*NatSetWorkersReply)(nil), "nat.NatSetWorkersReply")
 	api.RegisterMessage((*NatShowConfig)(nil), "nat.NatShowConfig")
+	api.RegisterMessage((*NatShowConfig2)(nil), "nat.NatShowConfig2")
+	api.RegisterMessage((*NatShowConfig2Reply)(nil), "nat.NatShowConfig2Reply")
 	api.RegisterMessage((*NatShowConfigReply)(nil), "nat.NatShowConfigReply")
 	api.RegisterMessage((*NatWorkerDetails)(nil), "nat.NatWorkerDetails")
 	api.RegisterMessage((*NatWorkerDump)(nil), "nat.NatWorkerDump")
@@ -1506,6 +1580,8 @@ func AllMessages() []api.Message {
 		(*Nat44AddDelLbStaticMappingReply)(nil),
 		(*Nat44AddDelStaticMapping)(nil),
 		(*Nat44AddDelStaticMappingReply)(nil),
+		(*Nat44AddDelStaticMappingV2)(nil),
+		(*Nat44AddDelStaticMappingV2Reply)(nil),
 		(*Nat44AddressDetails)(nil),
 		(*Nat44AddressDump)(nil),
 		(*Nat44DelSession)(nil),
@@ -1596,6 +1672,8 @@ func AllMessages() []api.Message {
 		(*NatSetWorkers)(nil),
 		(*NatSetWorkersReply)(nil),
 		(*NatShowConfig)(nil),
+		(*NatShowConfig2)(nil),
+		(*NatShowConfig2Reply)(nil),
 		(*NatShowConfigReply)(nil),
 		(*NatWorkerDetails)(nil),
 		(*NatWorkerDump)(nil),
@@ -1624,6 +1702,7 @@ type RPCService interface {
 	Nat44AddDelInterfaceAddr(ctx context.Context, in *Nat44AddDelInterfaceAddr) (*Nat44AddDelInterfaceAddrReply, error)
 	Nat44AddDelLbStaticMapping(ctx context.Context, in *Nat44AddDelLbStaticMapping) (*Nat44AddDelLbStaticMappingReply, error)
 	Nat44AddDelStaticMapping(ctx context.Context, in *Nat44AddDelStaticMapping) (*Nat44AddDelStaticMappingReply, error)
+	Nat44AddDelStaticMappingV2(ctx context.Context, in *Nat44AddDelStaticMappingV2) (*Nat44AddDelStaticMappingV2Reply, error)
 	Nat44DelSession(ctx context.Context, in *Nat44DelSession) (*Nat44DelSessionReply, error)
 	Nat44DelUser(ctx context.Context, in *Nat44DelUser) (*Nat44DelUserReply, error)
 	Nat44ForwardingEnableDisable(ctx context.Context, in *Nat44ForwardingEnableDisable) (*Nat44ForwardingEnableDisableReply, error)
@@ -1655,6 +1734,7 @@ type RPCService interface {
 	NatSetTimeouts(ctx context.Context, in *NatSetTimeouts) (*NatSetTimeoutsReply, error)
 	NatSetWorkers(ctx context.Context, in *NatSetWorkers) (*NatSetWorkersReply, error)
 	NatShowConfig(ctx context.Context, in *NatShowConfig) (*NatShowConfigReply, error)
+	NatShowConfig2(ctx context.Context, in *NatShowConfig2) (*NatShowConfig2Reply, error)
 }
 
 type serviceClient struct {
@@ -2100,6 +2180,15 @@ func (c *serviceClient) Nat44AddDelStaticMapping(ctx context.Context, in *Nat44A
 	return out, nil
 }
 
+func (c *serviceClient) Nat44AddDelStaticMappingV2(ctx context.Context, in *Nat44AddDelStaticMappingV2) (*Nat44AddDelStaticMappingV2Reply, error) {
+	out := new(Nat44AddDelStaticMappingV2Reply)
+	err := c.ch.SendRequest(in).ReceiveReply(out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *serviceClient) Nat44DelSession(ctx context.Context, in *Nat44DelSession) (*Nat44DelSessionReply, error) {
 	out := new(Nat44DelSessionReply)
 	err := c.ch.SendRequest(in).ReceiveReply(out)
@@ -2372,6 +2461,15 @@ func (c *serviceClient) NatSetWorkers(ctx context.Context, in *NatSetWorkers) (*
 
 func (c *serviceClient) NatShowConfig(ctx context.Context, in *NatShowConfig) (*NatShowConfigReply, error) {
 	out := new(NatShowConfigReply)
+	err := c.ch.SendRequest(in).ReceiveReply(out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *serviceClient) NatShowConfig2(ctx context.Context, in *NatShowConfig2) (*NatShowConfig2Reply, error) {
+	out := new(NatShowConfig2Reply)
 	err := c.ch.SendRequest(in).ReceiveReply(out)
 	if err != nil {
 		return nil, err

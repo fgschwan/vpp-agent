@@ -24,7 +24,7 @@ const (
 	// ModuleName is the name of this module.
 	ModuleName = "interface_types"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0x23822dac
+	VersionCrc = 0xc99548a1
 )
 
 // IfStatusFlags represents VPP binary API enum 'if_status_flags'.

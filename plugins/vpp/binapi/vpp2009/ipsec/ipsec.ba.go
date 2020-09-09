@@ -9,8 +9,8 @@ It consists of:
 	  6 aliases
 	 13 types
 	  1 union
-	 36 messages
-	 18 services
+	 38 messages
+	 19 services
 */
 package ipsec
 
@@ -32,9 +32,9 @@ const (
 	// ModuleName is the name of this module.
 	ModuleName = "ipsec"
 	// APIVersion is the API version of this module.
-	APIVersion = "3.0.2"
+	APIVersion = "4.0.0"
 	// VersionCrc is the CRC of this module.
-	VersionCrc = 0x7134a7f1
+	VersionCrc = 0x678474a
 )
 
 type AddressFamily = ip_types.AddressFamily
@@ -410,6 +410,26 @@ func (*IpsecSelectBackendReply) GetMessageName() string          { return "ipsec
 func (*IpsecSelectBackendReply) GetCrcString() string            { return "e8d4e804" }
 func (*IpsecSelectBackendReply) GetMessageType() api.MessageType { return api.ReplyMessage }
 
+// IpsecSetAsyncMode represents VPP binary API message 'ipsec_set_async_mode'.
+type IpsecSetAsyncMode struct {
+	AsyncEnable bool
+}
+
+func (m *IpsecSetAsyncMode) Reset()                        { *m = IpsecSetAsyncMode{} }
+func (*IpsecSetAsyncMode) GetMessageName() string          { return "ipsec_set_async_mode" }
+func (*IpsecSetAsyncMode) GetCrcString() string            { return "a6465f7c" }
+func (*IpsecSetAsyncMode) GetMessageType() api.MessageType { return api.RequestMessage }
+
+// IpsecSetAsyncModeReply represents VPP binary API message 'ipsec_set_async_mode_reply'.
+type IpsecSetAsyncModeReply struct {
+	Retval int32
+}
+
+func (m *IpsecSetAsyncModeReply) Reset()                        { *m = IpsecSetAsyncModeReply{} }
+func (*IpsecSetAsyncModeReply) GetMessageName() string          { return "ipsec_set_async_mode_reply" }
+func (*IpsecSetAsyncModeReply) GetCrcString() string            { return "e8d4e804" }
+func (*IpsecSetAsyncModeReply) GetMessageType() api.MessageType { return api.ReplyMessage }
+
 // IpsecSpdAddDel represents VPP binary API message 'ipsec_spd_add_del'.
 type IpsecSpdAddDel struct {
 	IsAdd bool
@@ -659,6 +679,8 @@ func init() {
 	api.RegisterMessage((*IpsecSadEntryAddDelReply)(nil), "ipsec.IpsecSadEntryAddDelReply")
 	api.RegisterMessage((*IpsecSelectBackend)(nil), "ipsec.IpsecSelectBackend")
 	api.RegisterMessage((*IpsecSelectBackendReply)(nil), "ipsec.IpsecSelectBackendReply")
+	api.RegisterMessage((*IpsecSetAsyncMode)(nil), "ipsec.IpsecSetAsyncMode")
+	api.RegisterMessage((*IpsecSetAsyncModeReply)(nil), "ipsec.IpsecSetAsyncModeReply")
 	api.RegisterMessage((*IpsecSpdAddDel)(nil), "ipsec.IpsecSpdAddDel")
 	api.RegisterMessage((*IpsecSpdAddDelReply)(nil), "ipsec.IpsecSpdAddDelReply")
 	api.RegisterMessage((*IpsecSpdDetails)(nil), "ipsec.IpsecSpdDetails")
@@ -700,6 +722,8 @@ func AllMessages() []api.Message {
 		(*IpsecSadEntryAddDelReply)(nil),
 		(*IpsecSelectBackend)(nil),
 		(*IpsecSelectBackendReply)(nil),
+		(*IpsecSetAsyncMode)(nil),
+		(*IpsecSetAsyncModeReply)(nil),
 		(*IpsecSpdAddDel)(nil),
 		(*IpsecSpdAddDelReply)(nil),
 		(*IpsecSpdDetails)(nil),
@@ -737,6 +761,7 @@ type RPCService interface {
 	IpsecItfDelete(ctx context.Context, in *IpsecItfDelete) (*IpsecItfDeleteReply, error)
 	IpsecSadEntryAddDel(ctx context.Context, in *IpsecSadEntryAddDel) (*IpsecSadEntryAddDelReply, error)
 	IpsecSelectBackend(ctx context.Context, in *IpsecSelectBackend) (*IpsecSelectBackendReply, error)
+	IpsecSetAsyncMode(ctx context.Context, in *IpsecSetAsyncMode) (*IpsecSetAsyncModeReply, error)
 	IpsecSpdAddDel(ctx context.Context, in *IpsecSpdAddDel) (*IpsecSpdAddDelReply, error)
 	IpsecSpdEntryAddDel(ctx context.Context, in *IpsecSpdEntryAddDel) (*IpsecSpdEntryAddDelReply, error)
 	IpsecTunnelIfAddDel(ctx context.Context, in *IpsecTunnelIfAddDel) (*IpsecTunnelIfAddDelReply, error)
@@ -973,6 +998,15 @@ func (c *serviceClient) IpsecSadEntryAddDel(ctx context.Context, in *IpsecSadEnt
 
 func (c *serviceClient) IpsecSelectBackend(ctx context.Context, in *IpsecSelectBackend) (*IpsecSelectBackendReply, error) {
 	out := new(IpsecSelectBackendReply)
+	err := c.ch.SendRequest(in).ReceiveReply(out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *serviceClient) IpsecSetAsyncMode(ctx context.Context, in *IpsecSetAsyncMode) (*IpsecSetAsyncModeReply, error) {
+	out := new(IpsecSetAsyncModeReply)
 	err := c.ch.SendRequest(in).ReceiveReply(out)
 	if err != nil {
 		return nil, err
